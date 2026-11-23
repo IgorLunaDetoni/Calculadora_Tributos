@@ -22,7 +22,7 @@ if "%~1"=="--sync" goto sync
 exit /b %errorlevel%
 
 :tests
-"%RTC_NODE%" --test "%~dp0tests\domain.test.mjs" "%~dp0tests\server.test.mjs" "%~dp0tests\governance.test.mjs"
+"%RTC_NODE%" --test "%~dp0tests\domain.test.mjs" "%~dp0tests\server.test.mjs" "%~dp0tests\governance.test.mjs" "%~dp0tests\municipalities.test.mjs"
 exit /b %errorlevel%
 
 :sync

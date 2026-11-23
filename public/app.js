@@ -1,5 +1,6 @@
 import {STATES,UF_CODES,validateDraft,demonstration,buildPayload,normalizeOfficial,splitProjection,formatMoney,validCnpj,formatCnpj,cleanCnpj,round} from './domain.mjs';
 import {loadMonitor} from './monitor.js';
+import {attachMunicipalityPicker} from './municipalities.mjs';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -10,6 +11,7 @@ const KEY = 'nexxera.tributos.v1';
 const demoCompany = {id:'demo',name:'Empresa de demonstração',regime:'regular',uf:'SP',ibge:'3550308',city:'São Paulo'};
 let state = {version:1,companies:[],history:[],active:'demo'};
 let committed = null, lastPreview = null, busy = false, toastTimer;
+let operationMunicipality,companyMunicipality;
 try {
   const stored = JSON.parse(localStorage.getItem(KEY)||'null');
   if(stored) state = validateBackup(stored);
@@ -69,7 +71,7 @@ function syncCompany(setDestination=false) {
   $('#active-company').value=selected.id;$('#company-count').textContent=state.companies.length;
   $('#active-regime').textContent=selected.regime==='simples'?'Simples Nacional':'Regime regular';
   $('#edit-active-company').textContent=selected.id==='demo'?'Cadastrar minha empresa':'Editar cadastro';
-  if(setDestination){$('#destination-uf').value=selected.uf;$('#municipality').value=selected.ibge;}
+  if(setDestination)operationMunicipality.set({uf:selected.uf,id:selected.ibge,name:selected.city});
   $$('.simple-item-fields').forEach(el=>el.classList.toggle('hidden',selected.regime!=='simples'));
   $$('.simple-item-fields input').forEach(el=>el.required=selected.regime==='simples');
   $$('.selective-rate').forEach(el=>el.classList.toggle('hidden',selected.regime==='simples'));
@@ -88,7 +90,7 @@ function addItem(value={}) {
 }
 function renumberItems() { $$('.item-card').forEach((el,i)=>{el.querySelector('.item-title').textContent=`Item ${String(i+1).padStart(2,'0')}`;el.querySelector('.remove-item').disabled=$$('.item-card').length===1;}); }
 function draft() {
-  return {description:$('#description').value.trim(),date:$('#operation-date').value,nature:$('#nature').value,uf:$('#destination-uf').value,municipality:$('#municipality').value,mode:$('#calculation-mode').value,document:$('#document-type').value,regime:company().regime,payment:$('#payment').value,split:$('#split-enabled').checked,
+  return {description:$('#description').value.trim(),date:$('#operation-date').value,nature:$('#nature').value,uf:$('#destination-uf').value,municipality:$('#municipality').value,municipalityName:$('#municipality-name').value.trim(),mode:$('#calculation-mode').value,document:$('#document-type').value,regime:company().regime,payment:$('#payment').value,split:$('#split-enabled').checked,
     rates:{cbs:$('#rate-cbs').value,uf:$('#rate-uf').value,mun:$('#rate-mun').value,simpleCbs:$('#simple-cbs').value,simpleIbs:$('#simple-ibs').value},
     items:$$('.item-card').map(el=>({base:el.querySelector('.item-base').value,code:el.querySelector('.item-code').value,cst:el.querySelector('.item-cst').value,classification:el.querySelector('.item-class').value,activity:el.querySelector('.item-activity').value,selective:el.querySelector('.item-selective').checked,isCst:el.querySelector('.item-is-cst').value,isClass:el.querySelector('.item-is-class').value,isRate:el.querySelector('.item-is-rate').value,isValue:el.querySelector('.item-is-value').value}))};
 }
@@ -130,6 +132,7 @@ function openCompany(id) {
   const c=state.companies.find(c=>c.id===id);$('#company-form').reset();$('#company-error').textContent='';
   $('#company-dialog-title').textContent=c?'Editar empresa':'Cadastrar empresa';$('#company-id').value=c?.id||'';
   for(const [suffix,key] of [['name','name'],['trade','trade'],['cnpj','cnpj'],['regime','regime'],['cnae','cnae'],['uf','uf'],['city','city'],['ibge','ibge'],['email','email']]) $(`#company-${suffix}`).value=c?.[key]??(suffix==='uf'?'SP':suffix==='regime'?'regular':'');
+  companyMunicipality.set({uf:c?.uf||'SP',id:c?.ibge||'',name:c?.city||''});
   if(c)$('#company-cnpj').value=formatCnpj(c.cnpj);$('#company-dialog').showModal();
 }
 function renderCompanies() {
@@ -153,8 +156,10 @@ function renderConnections(services=[]) {
 }
 
 for(const select of [$('#destination-uf'),$('#company-uf')]) {select.innerHTML=STATES.map(uf=>`<option>${uf}</option>`).join('');select.value='SP';}
+operationMunicipality=attachMunicipalityPicker({stateInput:$('#destination-uf'),nameInput:$('#municipality-name'),codeInput:$('#municipality'),options:$('#municipality-options'),help:$('#municipality-code-help')});
+companyMunicipality=attachMunicipalityPicker({stateInput:$('#company-uf'),nameInput:$('#company-city'),codeInput:$('#company-ibge'),options:$('#company-city-options'),help:$('#company-city-code-help')});
 $('#operation-date').value=localDate();
-addItem();syncCompany();route();
+addItem();syncCompany(true);route();
 window.addEventListener('hashchange',route);
 $('#help-button').addEventListener('click',()=>location.hash='fontes');
 $('#close-detail').addEventListener('click',()=>$('#detail-dialog').close());

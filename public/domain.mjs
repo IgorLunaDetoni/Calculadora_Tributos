@@ -30,7 +30,7 @@ export function percentAmount(base, rate) {
 export function validateDraft(draft) {
   if (!draft.description.trim()) throw new Error('Descreva a operação.');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.date) || !Number.isFinite(Date.parse(draft.date)) || new Date(draft.date).toISOString().slice(0,10)!==draft.date) throw new Error('Informe uma data válida.');
-  if (!STATES.includes(draft.uf) || !/^\d{7}$/.test(draft.municipality) || !draft.municipality.startsWith(UF_CODES[draft.uf])) throw new Error('O código IBGE deve ter 7 dígitos e corresponder à UF de destino.');
+  if (!STATES.includes(draft.uf) || !/^\d{7}$/.test(draft.municipality) || !draft.municipality.startsWith(UF_CODES[draft.uf])) throw new Error('Selecione um município válido para a UF de destino.');
   if (!draft.items.length) throw new Error('Adicione ao menos um item.');
   for (const item of draft.items) {
     if (!/^\d+(\.\d{1,2})?$/.test(String(item.base)) || +item.base <= 0 || +item.base > 999999999999) throw new Error('Informe uma base positiva, com até duas casas decimais.');

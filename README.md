@@ -76,6 +76,7 @@ Para desenvolvimento com reinício do servidor: `npm run dev`.
 ## Funcionalidades
 
 - Cadastro, edição, seleção e exclusão de empresas, com validação de CNPJ numérico ou alfanumérico e prevenção de duplicatas.
+- Município por nome, filtrado pela UF, com preenchimento automático do código IBGE na operação e no cadastro. A lista oficial fica no projeto e funciona sem consulta externa durante o preenchimento; nomes completos também são reconhecidos sem acento. Para atualizar a lista, execute `npm run sync:municipalities` (requer internet).
 - Persistência de empresas e operações no `localStorage` do navegador, com backup JSON e importação que preserva registros existentes.
 - Operações com múltiplos itens, data, destino, NCM/NBS, CST e cClassTrib.
 - Formulário próprio para Simples Nacional (CRT 1), atividade e alíquotas efetivas.

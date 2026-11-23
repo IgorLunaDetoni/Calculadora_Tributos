@@ -76,7 +76,7 @@ export function createApp(targets = defaultTargets, {governance = new Governance
         res.end(text);return;
       }
       if (!['GET','HEAD'].includes(req.method)) return json(res,405,{error:'Método não permitido.'});
-      const allowed = {'/':'index.html','/index.html':'index.html','/styles.css':'styles.css','/app.js':'app.js','/domain.mjs':'domain.mjs','/monitor.js':'monitor.js','/monitor.css':'monitor.css'};
+      const allowed = {'/':'index.html','/index.html':'index.html','/styles.css':'styles.css','/app.js':'app.js','/domain.mjs':'domain.mjs','/monitor.js':'monitor.js','/monitor.css':'monitor.css','/municipalities.mjs':'municipalities.mjs','/municipalities-data.mjs':'municipalities-data.mjs'};
       const file=allowed[url.pathname];
       if (!file) return json(res,404,{error:'Arquivo não encontrado.'});
       const ext=file.slice(file.lastIndexOf('.'));

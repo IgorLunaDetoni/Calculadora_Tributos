@@ -24,6 +24,8 @@ test('Local server serves UI, restricts routes and forwards official payloads wi
   try{
     const home=await fetch(base);assert.equal(home.status,200);assert.match(await home.text(),/Calculadora de tributos/);
     const monitorScript=await fetch(base+'/monitor.js');assert.equal(monitorScript.status,200);assert.match(monitorScript.headers.get('content-type'),/javascript/);assert.match(await monitorScript.text(),/loadMonitor/);
+    const cities=await fetch(base+'/municipalities-data.mjs');assert.equal(cities.status,200);assert.match(await cities.text(),/São Paulo/);
+    assert.equal((await fetch(base+'/municipalities.mjs')).status,200);
     assert.equal((await fetch(base+'/package.json')).status,404);
     assert.equal((await fetch(base+'/api/rtc/regular/anything')).status,404);
     assert.equal((await fetch(base+'/api/rtc/regular/calculate',{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://untrusted.test'},body:'{}'})).status,403);
