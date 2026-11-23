@@ -17,9 +17,14 @@ echo Usando o runtime Node do VS Code para desenvolvimento local.
 
 :run
 if "%~1"=="--test" goto tests
+if "%~1"=="--sync" goto sync
 "%RTC_NODE%" "%~dp0server.mjs"
 exit /b %errorlevel%
 
 :tests
-"%RTC_NODE%" --test "%~dp0tests\domain.test.mjs" "%~dp0tests\server.test.mjs"
+"%RTC_NODE%" --test "%~dp0tests\domain.test.mjs" "%~dp0tests\server.test.mjs" "%~dp0tests\governance.test.mjs"
+exit /b %errorlevel%
+
+:sync
+"%RTC_NODE%" "%~dp0scripts\sync-sources.mjs"
 exit /b %errorlevel%

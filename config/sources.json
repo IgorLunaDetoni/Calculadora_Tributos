@@ -1,0 +1,78 @@
+[
+    {
+        "id":  "rtc-regular",
+        "name":  "RTC · Regime regular",
+        "type":  "github",
+        "category":  "motor",
+        "repository":  "ReceitaFederal/calculadora-rtc-regime-regular",
+        "url":  "https://github.com/ReceitaFederal/calculadora-rtc-regime-regular",
+        "scope":  "Commit da branch main e changelog no mesmo commit. Não instala o motor."
+    },
+    {
+        "id":  "rtc-simples",
+        "name":  "RTC · Simples Nacional",
+        "type":  "github",
+        "category":  "motor",
+        "repository":  "ReceitaFederal/calculadora-rtc-simples-nacional",
+        "url":  "https://github.com/ReceitaFederal/calculadora-rtc-simples-nacional",
+        "scope":  "Commit da branch main e changelog no mesmo commit. Não instala o motor."
+    },
+    {
+        "id":  "lc214",
+        "name":  "LC 214/2025 · Texto atualizado",
+        "type":  "html",
+        "category":  "norma",
+        "url":  "https://www2.camara.leg.br/legin/fed/leicom/2025/leicomplementar-214-16-janeiro-2025-796905-normaatualizada-pl.html",
+        "scope":  "Texto consolidado completo. A vigência de cada dispositivo exige análise."
+    },
+    {
+        "id":  "rfb-legislacao",
+        "name":  "Receita · Legislação da reforma",
+        "type":  "html",
+        "category":  "indice",
+        "url":  "https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/reforma-tributaria-do-consumo/legislacao",
+        "scope":  "Índice: alterações e links novos. Não percorre todos os documentos vinculados."
+    },
+    {
+        "id":  "rfb-atos",
+        "name":  "RFB/CGIBS · Atos conjuntos",
+        "type":  "html",
+        "category":  "indice",
+        "url":  "https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/reforma-tributaria-do-consumo/legislacao/atos-conjuntos/",
+        "scope":  "Índice completo e descoberta automática das páginas HTML dos atos em um nível. Não percorre PDFs ou anexos.",
+        "followDocuments":  true
+    },
+    {
+        "id":  "rfb-atos-tecnicos",
+        "name":  "RFB/CGIBS · Atos técnicos conjuntos",
+        "type":  "html",
+        "category":  "indice",
+        "url":  "https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/reforma-tributaria-do-consumo/legislacao/atos-tecnicos-conjuntos/",
+        "scope":  "Índice completo e descoberta automática das páginas HTML dos atos em um nível. Não percorre PDFs ou anexos.",
+        "followDocuments":  true
+    },
+    {
+        "id":  "orientacoes-2026",
+        "name":  "RFB/CGIBS · Orientações para 2026",
+        "type":  "html",
+        "category":  "orientacao",
+        "url":  "https://www.gov.br/receitafederal/pt-br/assuntos/noticias/2025/dezembro/comunicado-conjunto",
+        "scope":  "Orientação conjunta sobre obrigações acessórias e dispensa de recolhimento em 2026."
+    },
+    {
+        "id":  "split-payment",
+        "name":  "Split payment · Documentação pública",
+        "type":  "html",
+        "category":  "orientacao",
+        "url":  "https://www.gov.br/fazenda/pt-br/assuntos/noticias/2026/junho/receita-federal-e-comite-gestor-do-ibs-publicam-documentacao-tecnica-da-plataforma-publica-do-split-payment",
+        "scope":  "Página de publicação e links da documentação; não consulta transações de pagamento."
+    },
+    {
+        "id":  "normas-rfb",
+        "name":  "Sistema Normas da Receita",
+        "type":  "manual",
+        "category":  "pesquisa",
+        "url":  "https://normas.receita.fazenda.gov.br/sijut2consulta/consulta.action",
+        "scope":  "Pesquisa interativa, sem conector automático homologado nesta versão. Atos individuais podem ser adicionados à lista de fontes."
+    }
+]

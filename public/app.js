@@ -1,4 +1,5 @@
 import {STATES,UF_CODES,validateDraft,demonstration,buildPayload,normalizeOfficial,splitProjection,formatMoney,validCnpj,formatCnpj,cleanCnpj,round} from './domain.mjs';
+import {loadMonitor} from './monitor.js';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -52,13 +53,14 @@ function showJson(title,value,message='') {
   const pre=document.createElement('pre');pre.textContent=JSON.stringify(value,null,2);$('#detail-content').append(pre);$('#detail-dialog').showModal();
 }
 function route() {
-  const names={calculadora:'Calculadora de tributos',empresas:'Minhas empresas',historico:'Histórico de operações',fontes:'Reforma tributária',integracoes:'Integrações'};
-  const page=location.hash.slice(1) in names?location.hash.slice(1):'calculadora';
+  const names={monitoramento:'Regras e atualizações',calculadora:'Calculadora de tributos',empresas:'Minhas empresas',historico:'Histórico de operações',fontes:'Reforma tributária',integracoes:'Integrações'};
+  const page=Object.hasOwn(names,location.hash.slice(1))?location.hash.slice(1):'monitoramento';
   $$('.page').forEach(el=>el.classList.toggle('hidden',el.id!==`page-${page}`));
   $$('.nav-link').forEach(el=>{el.classList.toggle('active',el.dataset.page===page);if(el.dataset.page===page)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');});
   $('#breadcrumb-current').textContent=names[page];document.title=`${names[page]} | Nexxera`;
   if(page==='empresas') renderCompanies();
   if(page==='historico') renderHistory();
+  if(page==='monitoramento')void loadMonitor();
   if(page==='integracoes' && !$('#connection-list').children.length) renderConnections();
 }
 function syncCompany(setDestination=false) {
@@ -199,7 +201,7 @@ $('#items').addEventListener('click',async event=>{
 $('#operation-form').addEventListener('submit',async event=>{
   event.preventDefault();if(busy)return;
   committed=null;$('#save-operation').disabled=true;$('#export-operation').disabled=true;
-  const d=draft();const id=uid();let responseBody,payload;
+  const d=draft();const id=uid();let responseBody,payload,provenance;
   try {
     validateDraft(d);busy=true;$('#calculate-button').disabled=true;$('#calculate-button').textContent=d.mode==='official'?'Consultando RTC…':'Calculando…';
     // Freeze the form so a delayed response can never be attached to changed inputs.
@@ -211,12 +213,17 @@ $('#operation-form').addEventListener('submit',async event=>{
       payload=buildPayload(d,id);
       const response=await fetch(`/api/rtc/${d.regime==='simples'?'simples':'regular'}/calculate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(25000)});
       responseBody=await response.json();
+      const contextId=response.headers.get('x-nexxera-context-id');
+      if(contextId) {
+        try {const audit=await fetch(`/api/governance/contexts/${contextId}`);if(audit.ok)provenance=await audit.json();else provenance={id:contextId,detailsUnavailable:true};}
+        catch{provenance={id:contextId,detailsUnavailable:true};}
+      }
       if(!response.ok)throw new Error(responseBody.error||responseBody.detail||responseBody.title||`A instância RTC retornou HTTP ${response.status}.`);
       result=normalizeOfficial(responseBody,d.regime,round(d.items.reduce((sum,item)=>sum+Number(item.base),0)),d.items.length);
       if(response.headers.get('x-warning-dados-simulados')){result.simulated=true;result.warning=`Aviso RTC: ${response.headers.get('x-warning-dados-simulados')}`;}
     }
     const split=splitProjection(result,d.payment,d.split);
-    committed={id,createdAt:new Date().toISOString(),company:{...company()},draft:d,result,split,...(payload?{request:payload,response:responseBody}:{})};
+    committed={id,createdAt:new Date().toISOString(),company:{...company()},draft:d,result,split,...(payload?{request:payload,response:responseBody,provenance}:{})};
     renderResult(result,split,result.source==='demo'?'Demonstração calculada':result.simulated?'RTC · cálculo simulado':'Calculado pela API RTC');
     $('#save-operation').disabled=false;$('#export-operation').disabled=false;toast(d.mode==='demo'?'Cenário demonstrativo calculado. Você pode salvar a operação.':'Resposta RTC recebida e validada.');
   } catch(error){renderResult(null,null,'Cálculo não concluído',error.message);toast(error.message,true);if(responseBody)showJson('A API não concluiu a operação',responseBody,error.message);}
