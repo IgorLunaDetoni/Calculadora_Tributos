@@ -26,6 +26,15 @@
         "scope":  "Texto consolidado completo. A vigência de cada dispositivo exige análise."
     },
     {
+        "id":  "mp1399-is",
+        "name":  "MP 1.399/2026 · Imposto Seletivo",
+        "type":  "html",
+        "category":  "norma",
+        "url":  "https://legis.senado.leg.br/norma/44331919/publicacao/44333087",
+        "referenceUrl":  "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2026/mpv/mpv1399.htm",
+        "scope":  "Publicação oficial do texto da MP no Senado, incluindo extinção de débitos do IS por split payment (art. 14, II) e produção de efeitos (art. 19). O Planalto é mantido como referência adicional; sua coleta estava indisponível na inclusão. A página de publicação original não acompanha integralmente a tramitação, conversão ou perda de eficácia da MP nem confirma disponibilidade operacional."
+    },
+    {
         "id":  "rfb-legislacao",
         "name":  "Receita · Legislação da reforma",
         "type":  "html",

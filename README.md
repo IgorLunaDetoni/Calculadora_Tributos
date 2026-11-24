@@ -12,6 +12,8 @@ A página inicial **Regras e atualizações** reúne o catálogo inicial de refe
 
 O conjunto inicial contém referências sobre CBS/IBS de 2026, dispensa condicionada ao cumprimento das obrigações acessórias, IBS e CBS em 2027–2028, Simples e split payment. É um recorte inicial, **não um levantamento exaustivo de todas as regras, exceções, atos ou notas técnicas**.
 
+Em 24/11/2026, o catálogo foi atualizado para `2026-11-24.1` com a referência do **IS na MP 1.399/2026**: art. 14, II (split como modalidade de extinção), e art. 19 (produção de efeitos prevista a partir de 02/02/2027). A publicação, de 04/11/2026, é distinta do início dos efeitos. A publicação oficial do texto no Senado entrou no monitoramento; o Planalto foi mantido como referência adicional, pois sua coleta estava indisponível na inclusão. Essa página de publicação original não acompanha integralmente a tramitação ou perda de eficácia da MP. A referência exige acompanhamento da tramitação e da regulamentação; mantém `executable: false`. A projeção de pagamento permanece limitada a CBS + IBS até implementação e validação próprias para o IS.
+
 ### O que atualiza automaticamente
 
 Ao iniciar o servidor, e a cada **4 horas** enquanto ele estiver ativo, o coletor:

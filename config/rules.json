@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "version": "2026-11-23.1",
-  "verifiedOn": "2026-11-23",
+  "version": "2026-11-24.1",
+  "verifiedOn": "2026-11-24",
   "scope": "Catálogo inicial de referências para CBS, IBS e split payment. Não constitui cobertura integral da legislação nem motor de apuração do saldo a recolher.",
   "rules": [
     {"id":"transicao-2026","title":"Referências de CBS e IBS em 2026","validFrom":"2026-01-01","validTo":"2026-12-31","regimes":["regular"],"taxes":["CBS","IBS"],"parameters":{"cbsPercent":"0.9","ibsStatePercent":"0.1","ibsMunicipalPercent":"0"},"summary":"CBS de 0,9% e IBS estadual de 0,1%. Reduções, regimes específicos e exceções precisam ser considerados; não aplicar esses percentuais ao Simples.","conditions":["Verificar enquadramento da operação e exceções do art. 348.","Destaque calculado não determina, isoladamente, saldo a recolher."],"sourceIds":["lc214"],"legalBasis":"LC 214/2025, arts. 343, 346 e 348","executable":false},
@@ -9,6 +9,29 @@
     {"id":"ibs-2027-2028","title":"IBS durante a transição de 2027 a 2028","validFrom":"2027-01-01","validTo":"2028-12-31","regimes":["regular"],"taxes":["IBS"],"parameters":{"ibsStatePercent":"0.05","ibsMunicipalPercent":"0.05"},"summary":"IBS de 0,05% estadual e 0,05% municipal, observadas as condições legais.","conditions":["Verificar reduções, bases específicas e tratamento de combustíveis."],"sourceIds":["lc214"],"legalBasis":"LC 214/2025, art. 344","executable":false},
     {"id":"cbs-2027-2028","title":"CBS em 2027 e 2028 depende da alíquota fixada","validFrom":"2027-01-01","validTo":"2028-12-31","regimes":["regular"],"taxes":["CBS"],"parameters":{},"summary":"A CBS depende da referência fixada e do ajuste legal. O catálogo não presume uma alíquota definitiva universal.","conditions":["Confirmar referência, reduções e tratamento de combustíveis."],"sourceIds":["lc214"],"legalBasis":"LC 214/2025, art. 347","executable":false},
     {"id":"simples-enquadramento","title":"Simples Nacional tem tratamento próprio","validFrom":"2026-01-01","validTo":null,"regimes":["simples"],"taxes":["CBS","IBS"],"parameters":{},"summary":"O fluxo do Simples demanda enquadramento, atividade e informações efetivas do contribuinte. A calculadora de operação não substitui a apuração do DAS.","conditions":["Validar regime e opções do contribuinte no período.","Conferir o contrato da versão RTC instalada."],"sourceIds":["rtc-simples","lc214"],"legalBasis":"LC 214/2025, art. 348, III, c; documentação da RTC Simples","executable":false},
-    {"id":"split-liquidacao","title":"Split payment: distinguir cálculo, segregação e recolhimento","validFrom":null,"validTo":null,"regimes":["regular","simples"],"taxes":["CBS","IBS"],"parameters":{},"summary":"A segregação na liquidação tem procedimentos e implantação próprios. Projeção na calculadora não comprova tributo pago.","conditions":["Confirmar aplicabilidade, procedimento e disponibilidade operacional.","Conciliar com evidências do PSP e débitos já extintos."],"sourceIds":["lc214","split-payment"],"legalBasis":"LC 214/2025, arts. 31 a 35; documentação pública RFB/CGIBS","executable":false}
+    {"id":"split-liquidacao","title":"Split payment: distinguir cálculo, segregação e recolhimento","validFrom":null,"validTo":null,"regimes":["regular","simples"],"taxes":["CBS","IBS"],"parameters":{},"summary":"A segregação na liquidação tem procedimentos e implantação próprios. Projeção na calculadora não comprova tributo pago.","conditions":["Confirmar aplicabilidade, procedimento e disponibilidade operacional.","Conciliar com evidências do PSP e débitos já extintos."],"sourceIds":["lc214","split-payment"],"legalBasis":"LC 214/2025, arts. 31 a 35; documentação pública RFB/CGIBS","executable":false},
+    {
+      "id":"is-split-mp1399-2026",
+      "title":"IS: previsão de recolhimento por split payment na MP 1.399/2026",
+      "publishedOn":"2026-11-04",
+      "inForceFrom":"2026-11-04",
+      "verifiedOn":"2026-11-24",
+      "validFrom":"2027-02-02",
+      "validTo":null,
+      "regimes":["regular","simples"],
+      "taxes":["IS"],
+      "parameters":{},
+      "summary":"A MP 1.399/2026 prevê o split payment como modalidade de extinção dos débitos do Imposto Seletivo. Publicada em 04/11/2026, prevê produção de efeitos a partir de 02/02/2027; essa data não comprova disponibilidade operacional do recolhimento.",
+      "conditions":[
+        "Referência para análise de enquadramento: confirmar incidência do IS, operação e sujeito passivo, inclusive as regras próprias do Simples. Não presumir aplicação universal.",
+        "Acompanhar tramitação, conversão, alterações e eventual perda de eficácia da MP antes de aplicar a regra ao período.",
+        "Confirmar regulamentação e disponibilidade operacional do split do IS, em conjunto com o art. 433 da LC 214/2025.",
+        "Reavaliar o período de aplicação quando começar a produção de efeitos da lei prevista no art. 15 da MP, conforme seu art. 19.",
+        "A projeção atual da calculadora contempla CBS e IBS. O registro desta referência não inclui IS automaticamente na segregação nem comprova pagamento."
+      ],
+      "sourceIds":["mp1399-is","lc214"],
+      "legalBasis":"MP 1.399/2026, arts. 14, II, 15, 18 e 19; LC 214/2025, art. 433",
+      "executable":false
+    }
   ]
 }
